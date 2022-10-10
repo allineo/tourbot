@@ -13,26 +13,14 @@ exports.getCommands = async function (client, message, stage) {
             await welcomeMessage(chat);
             menuCommandos(client, message);
             stage = 'experiencias';
+            
         } else if (stage == 'experiencias') {
-            switch (command) {
-                case 'Flutuação':
-                    await toursOptions.toursFlutuacao(client, message, chat);
-                    break;
-                case 'Trilhas e Cachoeiras':
-                    await toursOptions.toursTrilhas(client, message, chat);
-                    break;
-                case 'Aventura/Adrenalina':
-                    await toursOptions.toursAventura(client, message, chat);
-                    break;
-                default:
-                    menuCommandos(client, message);
-                    break;
-            }
+            toursTipos(client, message, command, chat, stage);
             stage = 'tourstipos';
-
-
+            
         } else if (stage == 'tourstipos') {
-            toursList(client, message, command, chat);
+            toursList(client, message, command, chat, stage);
+            stage = 'experiencias';
 
         } else if (command == 'Voltar') {
             menuCommandos(client, message);
@@ -80,7 +68,28 @@ function menuCommandos(client, message) {
     client.sendMessage(message.from, list);*/
 }
 
-function toursList(client, message, command, chat) {
+
+
+function toursTipos(client, message, command, chat, stage) {
+    switch (command) {
+        case 'Flutuação':
+            toursOptions.toursFlutuacao(client, message, chat);
+            break;
+        case 'Trilhas e Cachoeiras':
+            toursOptions.toursTrilhas(client, message, chat);
+            break;
+        case 'Aventura/Adrenalina':
+            toursOptions.toursAventura(client, message, chat);
+            break;
+        default:
+            menuCommandos(client, message);
+            stage = 'experiencias';
+            break;
+    }
+}
+
+
+function toursList(client, message, command, chat, stage) {
     switch (command) {
         case 'Balneário Municipal':
             tours.BalnearioMunicipal(client, message, chat);
@@ -88,8 +97,30 @@ function toursList(client, message, command, chat) {
         case 'Lagoa Misteriosa':
             tours.LagoaMisteriosa(client, message, chat);
             break;
+        case 'Aquário Natural':
+            tours.LagoaMisteriosa(client, message, chat);
+            break;
+        case 'Boca da Onça Ecotur':
+            tours.LagoaMisteriosa(client, message, chat);
+            break; 
+        case 'Ceita Corê':
+            tours.LagoaMisteriosa(client, message, chat);
+            break;
+        case 'Estância Mimosa':
+            tours.LagoaMisteriosa(client, message, chat);
+            break;   
+        case 'Flutuação Abismo Anhumas':
+            tours.LagoaMisteriosa(client, message, chat);
+            break; 
+        case 'Rapel e Trilha Boca da Onça':
+            tours.LagoaMisteriosa(client, message, chat);
+            break;  
+        case 'Grutas de São Miguel':
+            tours.LagoaMisteriosa(client, message, chat);
+            break; 
         default:
             menuCommandos(client, message);
+            stage = 'experiencias';
             break;
     }
 }
