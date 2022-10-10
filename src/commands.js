@@ -8,21 +8,12 @@ exports.getCommands = async function (client, message, stage) {
     let chat = await message.getChat();
     try {
         console.log('stage ' + stage);
-        const command = message.body;
         if (stage == '' || stage == undefined) {
             await welcomeMessage(chat);
-            menuCommandos(client, message);
-            stage = 'experiencias';
-            
-        } else if (stage == 'experiencias') {
-            toursTipos(client, message, command, chat, stage);
-            stage = 'tourstipos';
-            
-        } else if (stage == 'tourstipos') {
-            toursList(client, message, command, chat, stage);
-            stage = 'experiencias';
-
-        } else if (command == 'Voltar') {
+        }
+        const command = message.body;
+        stage = toursTipos(client, message, command, chat, stage);
+        if (stage == 'no tours') {
             menuCommandos(client, message);
             stage = 'experiencias';
         }
@@ -82,45 +73,45 @@ function toursTipos(client, message, command, chat, stage) {
             toursOptions.toursAventura(client, message, chat);
             break;
         default:
-            menuCommandos(client, message);
-            stage = 'experiencias';
+            stage = toursList(client, message, command, chat, stage);
             break;
     }
+    return stage;
 }
 
 
 function toursList(client, message, command, chat, stage) {
     switch (command) {
         case 'Balneário Municipal':
-            tours.BalnearioMunicipal(client, message, chat);
+            tours.BalnearioMunicipal(client, message, chat, command);
             break;
         case 'Lagoa Misteriosa':
-            tours.LagoaMisteriosa(client, message, chat);
+            tours.LagoaMisteriosa(client, message, chat, command);
             break;
         case 'Aquário Natural':
-            tours.LagoaMisteriosa(client, message, chat);
+            tours.LagoaMisteriosa(client, message, chat, command);
             break;
         case 'Boca da Onça Ecotur':
-            tours.LagoaMisteriosa(client, message, chat);
-            break; 
+            tours.LagoaMisteriosa(client, message, chat, command);
+            break;
         case 'Ceita Corê':
-            tours.LagoaMisteriosa(client, message, chat);
+            tours.LagoaMisteriosa(client, message, chat, command);
             break;
         case 'Estância Mimosa':
-            tours.LagoaMisteriosa(client, message, chat);
-            break;   
+            tours.LagoaMisteriosa(client, message, chat, command);
+            break;
         case 'Flutuação Abismo Anhumas':
-            tours.LagoaMisteriosa(client, message, chat);
-            break; 
+            tours.LagoaMisteriosa(client, message, chat, command);
+            break;
         case 'Rapel e Trilha Boca da Onça':
-            tours.LagoaMisteriosa(client, message, chat);
-            break;  
+            tours.LagoaMisteriosa(client, message, chat, command);
+            break;
         case 'Grutas de São Miguel':
-            tours.LagoaMisteriosa(client, message, chat);
-            break; 
+            tours.LagoaMisteriosa(client, message, chat, command);
+            break;
         default:
-            menuCommandos(client, message);
-            stage = 'experiencias';
+            stage = 'no tours';
             break;
     }
+    return stage;
 }
